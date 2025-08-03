@@ -99,6 +99,7 @@ export default async function IndexPage() {
         }
       >
         <div className="absolute inset-0 bg-black/80"></div>
+        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-b from-transparent to-black blur-sm z-10 pointer-events-none"></div>
         <div className="container mx-auto relative z-10">
           <div className="heading pt-[60px]">
             <h1 className="text-6xl md:text-9xl tracking-wider font-bold font-header mb-4 text-center text-shadow-hard">
