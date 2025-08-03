@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ export default function ContactForm() {
   });
 
   const [status, setStatus] = useState("");
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -21,12 +23,15 @@ export default function ContactForm() {
     setStatus("Sending...");
 
     try {
+      const token = await recaptchaRef.current?.executeAsync();
+      recaptchaRef.current?.reset();
+
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, token }),
       });
 
       if (res.ok) {
@@ -42,15 +47,18 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-lg mx-auto">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6 max-w-3xl mx-auto w-full px-4 py-10"
+    >
       <input
         type="text"
         name="name"
-        placeholder="Name"
+        placeholder="Name or Band Name"
         value={formData.name}
         onChange={handleChange}
         required
-        className="w-full p-2 border rounded"
+        className="w-full p-4 border border-white/50 rounded-md bg-black text-white text-lg"
       />
       <input
         type="email"
@@ -59,23 +67,31 @@ export default function ContactForm() {
         value={formData.email}
         onChange={handleChange}
         required
-        className="w-full p-2 border rounded"
+        className="w-full p-4 border border-white/50 rounded-md bg-black text-white text-lg"
       />
       <textarea
         name="message"
-        placeholder="Your message"
+        placeholder="Message"
         value={formData.message}
         onChange={handleChange}
         required
-        className="w-full p-2 border rounded"
+        rows={6}
+        className="w-full p-4 border border-white/50 rounded-md bg-black text-white text-lg"
+      />
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        size="invisible"
+        sitekey="6LdGj5krAAAAAECMwR_kS23QeGH39uTZTSwiXHsN"
       />
       <button
         type="submit"
-        className="bg-black text-white px-8 py-2 text-xl rounded block mx-auto hover:bg-white hover:text-black hover:cursor-pointer transition"
+        className="bg-black text-white px-10 py-2 text-2xl rounded block mx-auto hover:bg-white hover:text-black hover:cursor-pointer transition"
       >
         Send
       </button>
-      {status && <p>{status}</p>}
+      {status && (
+        <p className="text-center text-white text-sm italic">{status}</p>
+      )}
     </form>
   );
 }

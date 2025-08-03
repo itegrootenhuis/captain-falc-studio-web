@@ -5,6 +5,8 @@ import ContactForm from "@/components/ContactForm";
 import { Icon } from "@iconify/react";
 import instagramIcon from "@iconify-icons/mdi/instagram";
 import ScrollToContactButton from "@/components/ScrollToContactButton";
+import { AudioTrack } from "@/types/audio";
+import AudioPlayer from "@/components/AudioPlayer";
 
 import { type SanityDocument } from "next-sanity";
 
@@ -21,7 +23,7 @@ const LANDING_PAGE_QUERY = `
 `;
 
 const AUDIO_QUERY = `
- *[_type == "audio"]{
+ *[_type == "audio"] | order(sortOrder asc) {
     _id,
     songName,
     artistName,
@@ -50,7 +52,7 @@ const GLOBAL_SETTINGS_QUERY = `
 const CONTACT_PAGE_QUERY = `
   *[_type == "contactPage"][0]{
     _id,
-    backgroundColor,
+    contactFromTitle,
   }
 `;
 
@@ -63,11 +65,7 @@ export default async function IndexPage() {
     options
   );
 
-  const audioFiles = await client.fetch<SanityDocument[]>(
-    AUDIO_QUERY,
-    {},
-    options
-  );
+  const audioFiles = await client.fetch<AudioTrack[]>(AUDIO_QUERY, {}, options);
 
   const bioPage = await client.fetch<SanityDocument>(
     BIO_PAGE_QUERY,
@@ -88,69 +86,89 @@ export default async function IndexPage() {
   );
 
   return (
-    <main className="container mx-auto min-h-screen max-w-3xl p-8">
-      <section className="landing-page mb-8">
-        <div className="heading">
-          <h1 className="text-6xl text-brand font-bold mb-4 text-center">
-            {landingPage.headline}
-          </h1>
-          <h2 className="text-2xl font-bold mb-2 text-center">
-            {landingPage.subheadline}
-          </h2>
-          <div className="socials mb-4">
-            <a href={globalSettings.instagramUrl}>
-              <Icon
-                icon={instagramIcon}
-                className="text-white-600 mx-auto"
-                width="36"
-                height="36"
-              />
-            </a>
-          </div>
-        </div>
-        <div className="audio-list mx-auto px-4">
-          <div className="grid gap-6">
-            {audioFiles.map((track) => (
-              <div key={track._id} className="border rounded-lg p-6 shadow-md">
-                <div className="flex items-center mb-4">
-                  <p className="text-xl font-semibold">{track.songName}</p>
-                  <p className="text-gray-600 ml-4 whitespace-nowrap">
-                    {track.artistName}
-                  </p>
+    <main className="min-h-screen">
+      <section
+        className={`h-screen mb-8 pb-8 ${!landingPage.backgroundImage ? landingPage.backgroundColor : ""}`}
+        style={
+          landingPage.backgroundImage
+            ? {
+                backgroundImage: `url(${urlFor(landingPage.backgroundImage).url()})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }
+            : undefined
+        }
+      >
+        <div className="absolute inset-0 bg-black/80"></div>
+        <div className="container mx-auto relative z-10">
+          <div className="heading pt-[60px]">
+            <h1 className="text-9xl tracking-wider font-bold font-header mb-4 text-center text-shadow-hard">
+              {landingPage.headline}
+            </h1>
+            <h2 className="text-4xl tracking-wide font-bold font-header mb-2 text-center text-shadow-hard">
+              {landingPage.subheadline}
+            </h2>
+            <div className="socials mb-4">
+              <a
+                href={globalSettings.instagramUrl}
+                className="mx-auto block w-[50px] group"
+                target="_blank"
+              >
+                <div className="p-2 rounded-full transition-all duration-200 group-hover:bg-white group-hover:box-shadow-hard">
+                  <Icon
+                    icon={instagramIcon}
+                    className="text-white w-9 h-9 transition-colors duration-200 group-hover:text-black"
+                  />
                 </div>
-                <audio controls className="w-full">
-                  <source src={track.audioUrl} type="audio/flac" />
-                  Your browser does not support the audio element.
-                </audio>
-              </div>
-            ))}
-          </div>
-        </div>
-        <ScrollToContactButton />
-      </section>
-      <section className="bio-page py-16">
-        <div className="mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div className="text-left space-y-6">
-            <div className="text-lg text-white-700 space-y-4">
-              <PortableText value={bioPage.bioContent} />
+              </a>
             </div>
           </div>
-          <div className="w-full">
+          <div className="audio-list mx-auto px-4">
+            <AudioPlayer audioFiles={audioFiles} />
+          </div>
+          <ScrollToContactButton />
+        </div>
+      </section>
+
+      <section className="container mx-auto py-16">
+        <div className="mx-auto px-4 grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 items-center relative">
+          <div className="z-0">
             <Image
-              src={urlFor(bioPage.bioImage).width(600).height(800).url()}
+              src={urlFor(bioPage.bioImage).width(600).height(600).url()}
               alt={bioPage.bioImageAlt}
-              width={600} // required
-              height={800} // required
-              className="w-full h-auto rounded-lg shadow-lg"
+              width={600}
+              height={600}
+              className="h-auto rounded-lg shadow-lg linear-fade-edges"
             />
+          </div>
+          <div className="text-justify space-y-6 -ml-20 z-10 relative">
+            <div className="text-4xl text-white space-y-4">
+              <PortableText value={bioPage.bioContent} />
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="contact-form" className="contact-page py-16">
-        <div className="mx-auto px-4 max-w-2xl">
-          <h2 className="text-3xl font-bold mb-6 text-center">Get in Touch</h2>
+      <section id="contact-form" className="h-screen py-16">
+        <div className="mx-auto px-4 container mt-20">
+          <h2 className="text-5xl font-bold mb-6 text-center">
+            {contactPage.contactFromTitle}
+          </h2>
           <ContactForm />
+        </div>
+        <div className="socials mt-4">
+          <a
+            href={globalSettings.instagramUrl}
+            className="mx-auto block w-[50px] group"
+            target="_blank"
+          >
+            <div className="p-2 rounded-full transition-all duration-200 group-hover:bg-white group-hover:box-shadow-hard">
+              <Icon
+                icon={instagramIcon}
+                className="text-white w-9 h-9 transition-colors duration-200 group-hover:text-black"
+              />
+            </div>
+          </a>
         </div>
       </section>
     </main>
