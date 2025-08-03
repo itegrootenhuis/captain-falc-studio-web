@@ -18,7 +18,6 @@ const LANDING_PAGE_QUERY = `
     headline,
     subheadline,
     backgroundImage,
-    backgroundColor
   }
 `;
 
@@ -34,7 +33,6 @@ const AUDIO_QUERY = `
 const BIO_PAGE_QUERY = `
   *[_type == "bioPage"][0]{
     _id,
-    backgroundColor,
     bioContent,
     bioImage,
     bioImageAlt,
@@ -89,7 +87,7 @@ export default async function IndexPage() {
   return (
     <main className="min-h-screen">
       <section
-        className={`h-screen mb-20 md:mb-8 pb-8 ${!landingPage.backgroundImage ? landingPage.backgroundColor : ""}`}
+        className={`h-screen mb-20 md:mb-8 pb-8 ${!landingPage.backgroundImage}`}
         style={
           landingPage.backgroundImage
             ? {
