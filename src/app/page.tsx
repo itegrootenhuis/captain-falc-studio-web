@@ -154,7 +154,7 @@ export default async function IndexPage() {
           <h2 className="text-5xl font-bold mb-6 text-center">
             {contactPage.contactFromTitle}
           </h2>
-          <p className="text-xl font-bold mb-6 text-center">
+          <p className="text-xl mb-6 text-center">
             {contactPage.contactFromSubTitle}
           </p>
           <ContactForm />
