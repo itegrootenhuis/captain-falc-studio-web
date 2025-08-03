@@ -9,7 +9,7 @@ export default function ScrollToContactButton() {
   return (
     <button
       onClick={scrollToContact}
-      className="mt-6 px-8 py-4 text-xl bg-black text-white mx-auto block rounded hover:bg-white hover:text-black transition box-shadow-hard"
+      className="mt-6 px-8 py-4 text-4xl bg-black text-white mx-auto block rounded hover:bg-white hover:text-black transition box-shadow-hard"
     >
       Contact Me
     </button>

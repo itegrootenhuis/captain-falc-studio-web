@@ -85,7 +85,7 @@ export default function ContactForm() {
       />
       <button
         type="submit"
-        className="bg-black text-white px-10 py-2 text-2xl rounded block mx-auto hover:bg-white hover:text-black hover:cursor-pointer transition"
+        className="bg-black text-white px-10 py-2 text-4xl rounded block mx-auto hover:bg-white hover:text-black hover:cursor-pointer transition"
       >
         Send
       </button>

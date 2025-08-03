@@ -53,6 +53,7 @@ const CONTACT_PAGE_QUERY = `
   *[_type == "contactPage"][0]{
     _id,
     contactFromTitle,
+    contactFromSubTitle,
   }
 `;
 
@@ -88,7 +89,7 @@ export default async function IndexPage() {
   return (
     <main className="min-h-screen">
       <section
-        className={`h-screen mb-8 pb-8 ${!landingPage.backgroundImage ? landingPage.backgroundColor : ""}`}
+        className={`h-screen mb-20 md:mb-8 pb-8 ${!landingPage.backgroundImage ? landingPage.backgroundColor : ""}`}
         style={
           landingPage.backgroundImage
             ? {
@@ -102,10 +103,10 @@ export default async function IndexPage() {
         <div className="absolute inset-0 bg-black/80"></div>
         <div className="container mx-auto relative z-10">
           <div className="heading pt-[60px]">
-            <h1 className="text-9xl tracking-wider font-bold font-header mb-4 text-center text-shadow-hard">
+            <h1 className="text-6xl md:text-9xl tracking-wider font-bold font-header mb-4 text-center text-shadow-hard">
               {landingPage.headline}
             </h1>
-            <h2 className="text-4xl tracking-wide font-bold font-header mb-2 text-center text-shadow-hard">
+            <h2 className="text-2xl md:text-4xl tracking-wide font-bold font-header mb-2 text-center text-shadow-hard">
               {landingPage.subheadline}
             </h2>
             <div className="socials mb-4">
@@ -130,7 +131,7 @@ export default async function IndexPage() {
         </div>
       </section>
 
-      <section className="container mx-auto py-16">
+      <section className="container mx-auto py-20 md:py-40">
         <div className="mx-auto px-4 grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 items-center relative">
           <div className="z-0">
             <Image
@@ -141,19 +142,22 @@ export default async function IndexPage() {
               className="h-auto rounded-lg shadow-lg linear-fade-edges"
             />
           </div>
-          <div className="text-justify space-y-6 -ml-20 z-10 relative">
-            <div className="text-4xl text-white space-y-4">
+          <div className="text-justify space-y-6 md:-ml-20 z-10 relative">
+            <div className="text-2xl md:text-4xl text-white space-y-4">
               <PortableText value={bioPage.bioContent} />
             </div>
           </div>
         </div>
       </section>
 
-      <section id="contact-form" className="h-screen py-16">
+      <section id="contact-form" className="h-screen">
         <div className="mx-auto px-4 container mt-20">
           <h2 className="text-5xl font-bold mb-6 text-center">
             {contactPage.contactFromTitle}
           </h2>
+          <p className="text-xl font-bold mb-6 text-center">
+            {contactPage.contactFromSubTitle}
+          </p>
           <ContactForm />
         </div>
         <div className="socials mt-4">

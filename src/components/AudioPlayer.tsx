@@ -93,7 +93,9 @@ export default function AudioPlayer({
   return (
     <div className="bg-neutral-900 p-6 rounded-lg shadow-lg text-white max-w-3xl mx-auto box-shadow-hard">
       <div className="text-center mb-4">
-        <h3 className="text-5xl font-bold">{currentTrack.songName}</h3>
+        <h3 className="text-3xl md:text-5xl font-bold">
+          {currentTrack.songName}
+        </h3>
         <p className="text-xl text-gray-400">{currentTrack.artistName}</p>
       </div>
 
