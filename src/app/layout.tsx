@@ -74,9 +74,10 @@ export async function generateMetadata(): Promise<Metadata> {
     },
 
     icons: {
-      icon: siteSettings?.favicon
-        ? urlFor(siteSettings.favicon).width(64).height(64).url()
-        : "/favicon.ico",
+      icon: {
+        url: urlFor(siteSettings.favicon).width(64).height(64).url(),
+        type: "image/png",
+      },
       apple: "/apple-touch-icon.png",
     },
 
