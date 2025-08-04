@@ -2,8 +2,8 @@
 
 :root {
   --light-black: #2d2d2d;
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ededed;
   --primary: #d98b1e;
   --secondary: #ce9b54;
   --gray: #8b8b8b;
@@ -15,15 +15,6 @@
   --font-sans: "New Amsterdam", sans-serif;
   --font-header: "Bebas Neue", sans-serif;
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #d98b1e;
-    --secondary: #ce9b54;
-  }
 }
 
 @font-face {
