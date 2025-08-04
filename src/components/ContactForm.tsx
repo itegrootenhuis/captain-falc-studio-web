@@ -90,7 +90,7 @@ export default function ContactForm() {
         Send
       </button>
       {status && (
-        <p className="text-center text-white text-sm italic">{status}</p>
+        <p className="text-center text-white text-sm italic ">{status}</p>
       )}
     </form>
   );
