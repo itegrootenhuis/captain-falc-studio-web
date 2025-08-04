@@ -48,8 +48,6 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     creator: "Captain Falc Studios",
     applicationName: "Captain Falc Studios",
-    themeColor: "#d98b1e",
-    colorScheme: "dark",
 
     openGraph: {
       title,
