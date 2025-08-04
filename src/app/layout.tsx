@@ -33,6 +33,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const imageUrl = siteSettings?.metadataImage
     ? urlFor(siteSettings.metadataImage).width(1200).height(630).url()
     : `${siteUrl}/default-og.jpg`;
+  const favicon = siteSettings?.favicon
+    ? urlFor(siteSettings.favicon).width(64).height(64).url()
+    : "/favicon.ico";
 
   return {
     title,
@@ -74,9 +77,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
 
     icons: {
-      icon: siteSettings?.favicon
-        ? urlFor(siteSettings.favicon).width(64).height(64).url()
-        : "/favicon.ico",
+      icon: favicon,
       apple: "/apple-touch-icon.png",
     },
 
@@ -101,6 +102,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon-v2.png" type="image/png"></link>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
