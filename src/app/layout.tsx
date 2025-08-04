@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
     : `${siteUrl}/default-og.jpg`;
   const favicon = siteSettings?.favicon
     ? urlFor(siteSettings.favicon).width(64).height(64).url()
-    : "/favicon.ico";
+    : "/favicon-v2.ico";
 
   return {
     title,
@@ -102,9 +102,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/favicon-v2.png" type="image/png"></link>
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
