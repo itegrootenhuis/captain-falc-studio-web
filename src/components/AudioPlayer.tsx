@@ -46,7 +46,7 @@ export default function AudioPlayer({
         audioRef.current.play();
       }
     }
-  }, [currentTrackIndex, isPlaying]);
+  }, [currentTrackIndex]);
 
   const play = () => {
     audioRef.current?.play();
